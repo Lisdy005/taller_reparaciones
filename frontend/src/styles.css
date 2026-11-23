@@ -1,0 +1,1191 @@
+/* Estilos del Taller de Reparaciones.
+   Un solo archivo externo (conferencia 3). Mobile first (conferencia 4): los
+   estilos generales son para el móvil y al final se agregan los de pantallas
+   grandes con @media (min-width: ...).
+
+   Idea visual: el banco de trabajo de un taller de electrónica. Fondo gris
+   verdoso como la alfombra antiestática, tinta pizarra y un solo acento: el
+   amarillo de seguridad de los multímetros y las herramientas. */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --tinta: #1e2a2f;
+  --tinta-suave: #52626a;
+  --banco: #e3e7e4;
+  --ranura: #d2d9d5;
+  --papel: #ffffff;
+  --linea: #b9c3be;
+  --senal: #f2b705;
+  --senal-oscura: #c99500;
+  --alerta: #b3362b;
+  --hecho: #2f7a57;
+
+  /* Variables de apoyo, para que el modo oscuro solo tenga que cambiarlas */
+  --cabecera: #1e2a2f;
+  --sobre-tinta: #ffffff; /* texto sobre fondos color tinta */
+  --papel-suave: #f3f6f4;
+  --gris-etiqueta: #e4e9e6;
+  --borde-etiqueta: #c3ccc7;
+  --borde-campo: #9eaba5;
+  --borde-fila: #e2e7e4;
+  --pared: #c8d0cb;
+  --pared-agujero: #9faba4;
+  --pared-borde: #aeb9b3;
+  --columna: #eef1ef;
+  --error-fondo: #fbeceb;
+  --error-borde: #e3b4af;
+  --exito-fondo: #e9f4ee;
+  --exito-borde: #b5d6c4;
+  --boton-hover: #33454c;
+
+  --titulos: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --texto: 'Barlow', 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--banco);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1,
+h2 {
+  font-family: var(--titulos);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+}
+
+h1 {
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+p {
+  margin: 0 0 0.75rem;
+}
+
+a {
+  color: var(--tinta);
+  text-decoration-color: var(--senal-oscura);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: var(--tinta);
+}
+
+code {
+  font-family: var(--titulos);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+/* Foco visible con el teclado en todo lo que se puede usar */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--senal);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- estructura */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cabecera {
+  background: var(--cabecera);
+  color: #fff;
+  border-bottom: 4px solid var(--senal);
+}
+
+.cabecera-contenido,
+.contenido {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.cabecera-contenido {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 2rem;
+  padding-top: 0.75rem;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--titulos);
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Símbolo de la marca: un cuadro amarillo con un tornillo, sin imágenes */
+.marca-simbolo {
+  position: relative;
+  width: 1.4rem;
+  height: 1.4rem;
+  background: var(--senal);
+  border-radius: 3px;
+}
+
+.marca-simbolo::after {
+  content: '';
+  position: absolute;
+  inset: 0.4rem;
+  border-radius: 50%;
+  background: var(--tinta);
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+
+.menu-enlace {
+  color: #c9d3d6;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.6rem 0 0.5rem;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -4px; /* la raya activa se apoya sobre la línea amarilla */
+  transition: color 0.15s;
+}
+
+.menu-enlace:hover {
+  color: #fff;
+}
+
+.menu-enlace.activo {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.contenido {
+  flex: 1;
+  padding-top: 1.75rem;
+  padding-bottom: 3rem;
+}
+
+.contenido > section {
+  margin-bottom: 2rem;
+}
+
+.pie {
+  color: var(--tinta-suave);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1.25rem;
+  border-top: 1px solid var(--linea);
+}
+
+.titulo-pagina {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.titulo-pagina h1 {
+  margin: 0;
+}
+
+.migas {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------- tarjetas */
+
+.tarjeta {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.vacio {
+  text-align: center;
+  color: var(--tinta-suave);
+  padding: 2rem 1.25rem;
+}
+
+/* --------------------------------------------------------- panel: portada */
+
+.portada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.portada h1 {
+  font-size: 2.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.portada-resumen {
+  font-size: 1.15rem;
+  color: var(--tinta-suave);
+  margin: 0;
+}
+
+/* ---------------------------------------------- panel: tablero de etapas */
+
+/* El tablero cuelga de una pared perforada de herramientas (pegboard).
+   Los agujeros son un patrón de puntos: un degradado radial que se repite
+   cada 22px (background-image + background-size).
+   En el móvil las columnas se desplazan de lado, como un tablero largo. */
+.tablero {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: 0.9rem;
+  overflow-x: auto;
+  padding: 1.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--pared-borde);
+  background-color: var(--pared);
+  background-image: radial-gradient(circle, var(--pared-agujero) 2px, transparent 2.6px);
+  background-size: 22px 22px;
+}
+
+.columna {
+  background: var(--columna);
+  border-radius: 6px;
+  border-top: 3px solid var(--tinta);
+  padding: 0.75rem;
+  align-self: start; /* cada columna mide lo que tiene, sin huecos */
+  /* sombra corta y dura: la columna parece colgada sobre la pared */
+  box-shadow: 0 3px 0 var(--pared-agujero);
+}
+
+.columna-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.columna-titulo a {
+  text-decoration: none;
+}
+
+.columna-titulo a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--senal-oscura);
+}
+
+.columna-cantidad {
+  min-width: 1.9rem;
+  height: 1.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--tinta);
+  color: var(--sobre-tinta);
+  font-size: 1rem;
+}
+
+.columna-vacia {
+  color: var(--tinta-suave);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.fichas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Cada ficha es como la etiqueta de papel que se ata al equipo */
+.ficha {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  padding: 0.6rem 0.7rem;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.ficha:hover {
+  border-color: var(--tinta);
+}
+
+.ficha-foto {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid var(--linea);
+}
+
+.ficha-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ficha-equipo {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.ficha-cliente {
+  font-size: 0.875rem;
+  color: var(--tinta-suave);
+}
+
+.columna-vacia {
+  background: transparent;
+}
+
+.cerradas h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.cerradas ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+}
+
+.cerradas a {
+  text-decoration: none;
+  color: var(--tinta-suave);
+}
+
+.cerradas a:hover {
+  color: var(--tinta);
+}
+
+.cerradas-numero {
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--tinta);
+}
+
+/* ------------------------------------------------------ etiqueta de etapa */
+
+/* Etiquetas sobrias: gris mientras la orden está en proceso, tinta sólida
+   cuando está lista para entregar (lo único que pide acción del mostrador)
+   y solo contorno cuando ya está cerrada. */
+.etiqueta {
+  display: inline-block;
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.35rem 0.6rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  background: var(--gris-etiqueta);
+  color: var(--tinta);
+  border: 1px solid var(--borde-etiqueta);
+}
+
+.etiqueta-lista {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--sobre-tinta);
+}
+
+.etiqueta-entregada,
+.etiqueta-rechazada,
+.etiqueta-cancelada {
+  background: transparent;
+  color: var(--tinta-suave);
+  border-color: var(--linea);
+}
+
+/* ------------------------------------------------------------------ tablas */
+
+.tabla-contenedor {
+  overflow-x: auto;
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--borde-fila);
+}
+
+.tabla thead th {
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--papel-suave);
+  border-bottom: 2px solid var(--tinta);
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabla tbody tr:hover {
+  background: var(--papel-suave);
+}
+
+.tabla td a {
+  font-weight: 600;
+}
+
+.tabla tfoot th {
+  font-family: var(--titulos);
+  font-size: 1.35rem;
+  border-top: 2px solid var(--tinta);
+  border-bottom: 0;
+}
+
+.tabla .numero {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabla .tiempo {
+  font-family: var(--titulos);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.contador {
+  color: var(--tinta-suave);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* ------------------------------------------------------------- formularios */
+
+.formulario {
+  max-width: 820px;
+}
+
+fieldset {
+  border: 0;
+  border-top: 2px solid var(--tinta);
+  padding: 0.9rem 0 0;
+  margin: 0 0 1.5rem;
+}
+
+legend {
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 0 0.5rem 0 0;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  min-width: 0;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.campo-crece {
+  flex: 1;
+}
+
+.campo-corto {
+  flex: 1;
+}
+
+.campo-boton {
+  justify-content: flex-end;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  background: var(--papel);
+  border: 1px solid var(--borde-campo);
+  border-radius: 4px;
+  transition: border-color 0.15s;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--tinta-suave);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--tinta);
+}
+
+input[type='radio'] {
+  width: auto;
+  accent-color: var(--tinta);
+}
+
+input[type='file'] {
+  padding: 0.45rem;
+  background: var(--papel-suave);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+.fila-pieza {
+  align-items: flex-end;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dashed var(--linea);
+  margin-bottom: 0.9rem;
+}
+
+.fila-pieza .campo-crece {
+  min-width: 200px;
+}
+
+.importe {
+  margin: 0 0 1.5rem;
+  min-width: 80px;
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.fila-pieza .boton-texto {
+  margin-bottom: 1.45rem;
+}
+
+.opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.opciones label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 500;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.filtro-cliente {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ayuda {
+  color: var(--tinta-suave);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.total-presupuesto {
+  font-family: var(--titulos);
+  font-size: 1.5rem;
+  text-align: right;
+  border-top: 2px solid var(--tinta);
+  padding-top: 0.6rem;
+}
+
+.acciones,
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.acciones {
+  justify-content: flex-end;
+}
+
+.botones {
+  flex-direction: column;
+}
+
+/* ----------------------------------------------------------------- botones */
+
+.boton {
+  display: inline-block;
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  border: 2px solid var(--tinta);
+  background: var(--tinta);
+  color: var(--sobre-tinta);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.boton:hover:not(:disabled) {
+  background: var(--boton-hover);
+}
+
+.boton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* La acción principal de cada pantalla: amarillo de herramienta */
+.boton-principal {
+  background: var(--senal);
+  border-color: var(--senal);
+  color: #1e2a2f; /* siempre oscuro: el amarillo es igual en los dos modos */
+  box-shadow: inset 0 -3px 0 var(--senal-oscura);
+}
+
+.boton-principal:hover:not(:disabled) {
+  background: #ffc61a;
+}
+
+.boton.secundario {
+  background: transparent;
+  color: var(--tinta);
+}
+
+.boton.secundario:hover:not(:disabled) {
+  background: var(--papel);
+}
+
+.boton.peligro {
+  background: transparent;
+  border-color: var(--alerta);
+  color: var(--alerta);
+}
+
+.boton.peligro:hover:not(:disabled) {
+  background: var(--error-fondo);
+}
+
+.boton-texto {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0.25rem;
+  color: var(--tinta);
+  text-decoration: underline;
+  text-decoration-color: var(--senal-oscura);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ avisos */
+
+.aviso {
+  padding: 0.7rem 0.9rem;
+  border-radius: 4px;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid var(--linea);
+  background: var(--papel);
+}
+
+.aviso-cargando {
+  color: var(--tinta-suave);
+  background: transparent;
+  border-color: transparent;
+}
+
+.aviso-error {
+  color: var(--alerta);
+  border-color: var(--error-borde);
+  background: var(--error-fondo);
+}
+
+.aviso-exito {
+  color: var(--hecho);
+  border-color: var(--exito-borde);
+  background: var(--exito-fondo);
+}
+
+/* ----------------------------------------------------- detalle de la orden */
+
+.detalle {
+  display: grid;
+  grid-template-columns: 1fr; /* en el móvil, una sola columna */
+  gap: 1rem;
+  align-items: start;
+}
+
+/* La orden de trabajo de papel: la cabecera se separa con una línea
+   perforada y dos muescas a los lados (pseudo-elementos, conferencia 3). */
+.ticket {
+  position: relative;
+  overflow: hidden; /* esconde la mitad de afuera de las muescas */
+  border-top: 6px solid var(--tinta);
+}
+
+.ticket h2 {
+  padding-bottom: 0.9rem;
+  margin: 0 -1.25rem 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  border-bottom: 2px dashed var(--linea);
+}
+
+.ticket-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.ticket-codigo {
+  font-weight: 500;
+  color: var(--tinta-suave);
+}
+
+/* Talón de cierre: la parte de abajo del ticket, separada por otra línea
+   perforada. Solo aparece cuando la orden está cerrada. */
+.talon {
+  margin: 1.1rem -1.25rem -1.25rem;
+  padding: 0.9rem 1.25rem;
+  border-top: 2px dashed var(--linea);
+  background: var(--papel-suave);
+  color: var(--tinta);
+}
+
+.talon strong {
+  font-weight: 600;
+}
+
+.talon-rechazada strong,
+.talon-cancelada strong {
+  color: var(--alerta);
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+}
+
+.datos dt {
+  color: var(--tinta-suave);
+}
+
+.datos dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.texto-largo {
+  white-space: pre-wrap;
+}
+
+/* Recorrido de la orden: una estación por etapa */
+.linea-etapas {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 0.3rem;
+}
+
+.linea-etapas li {
+  flex: 1 1 90px;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  padding-top: 0.45rem;
+  border-top: 5px solid var(--borde-etiqueta);
+}
+
+.linea-etapas .hecha {
+  color: var(--tinta);
+  border-top-color: var(--tinta);
+}
+
+.linea-etapas .actual {
+  position: relative;
+  color: var(--tinta);
+  font-weight: 600;
+  border-top-color: transparent;
+}
+
+/* La etapa actual se "enciende" una vez al abrir la orden (conferencia 4) */
+.linea-etapas .actual::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background: var(--senal);
+  animation: encender 0.7s ease-out;
+}
+
+@keyframes encender {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.linea-etapas .salida {
+  color: var(--alerta);
+  font-weight: 600;
+  border-top-color: var(--alerta);
+}
+
+/* Historial: línea de tiempo; el último evento lleva el punto amarillo */
+.historial {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  border-left: 2px solid var(--linea);
+}
+
+.historial li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+}
+
+.historial li:last-child {
+  padding-bottom: 0;
+}
+
+.historial li::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.1rem - 7px);
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tinta);
+  border: 2px solid var(--papel);
+}
+
+.historial li:last-child::before {
+  background: var(--senal);
+  border-color: var(--tinta);
+}
+
+.historial time {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
+.galeria,
+.miniaturas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.galeria img {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--linea);
+}
+
+.galeria a:hover img {
+  border-color: var(--tinta);
+}
+
+.miniaturas {
+  margin-top: 0.6rem;
+}
+
+.miniaturas li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.miniaturas img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--linea);
+}
+
+/* ------------------------------------------------------ botón Volver */
+
+.boton-volver {
+  font: inherit;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.6rem;
+  background: transparent;
+  color: var(--tinta);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+/* La flecha es un pseudo-elemento: un borde girado 45° (conferencia 4) */
+.boton-volver::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.boton-volver:hover {
+  border-color: var(--tinta);
+  background: var(--papel);
+}
+
+/* ------------------------------------- fichas: total y tiempo en taller */
+
+.ficha-pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.ficha-total {
+  font-family: var(--titulos);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tiempo {
+  font-family: var(--titulos);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Más de 7 días en el taller: se avisa en rojo oscuro, sin fondos llamativos */
+.tiempo.atrasada {
+  color: var(--alerta);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------- filas clicables */
+
+.tabla-clicable tbody tr {
+  cursor: pointer;
+}
+
+.tabla-clicable td a {
+  text-decoration: none;
+}
+
+.tabla-clicable tbody tr:hover td a {
+  text-decoration: underline;
+  text-decoration-color: var(--senal-oscura);
+}
+
+/* ------------------------------------------- fechas en el recorrido */
+
+.linea-nombre,
+.linea-fecha {
+  display: block;
+}
+
+.linea-fecha {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--tinta-suave);
+}
+
+/* --------------------------------------------------------- modo oscuro */
+/* Si el sistema del usuario está en modo oscuro (conferencia 4,
+   prefers-color-scheme), solo se cambian las variables de color. */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tinta: #e6ebe8;
+    --tinta-suave: #a3b0aa;
+    --banco: #172025;
+    --ranura: #1f2a30;
+    --papel: #212d33;
+    --linea: #3a4a51;
+    --alerta: #ef8a7f;
+    --hecho: #7cc6a0;
+
+    --cabecera: #10181c;
+    --sobre-tinta: #172025;
+    --papel-suave: #263339;
+    --gris-etiqueta: #2c3a41;
+    --borde-etiqueta: #435259;
+    --borde-campo: #52626a;
+    --borde-fila: #2e3c42;
+    --pared: #1b252a;
+    --pared-agujero: #2f3d44;
+    --pared-borde: #2f3d44;
+    --columna: #1f2a30;
+    --error-fondo: #3a2422;
+    --error-borde: #6b3a35;
+    --exito-fondo: #1f3a2d;
+    --exito-borde: #335b47;
+    --boton-hover: #c9d3cf;
+  }
+
+  .linea-etapas li {
+    border-top-color: var(--borde-etiqueta);
+  }
+
+  .linea-etapas .hecha {
+    border-top-color: var(--tinta-suave);
+  }
+}
+
+/* ------------------------------------------------------- menos movimiento */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------- responsivo */
+/* Mobile first (conferencia 4): desde 768px se agregan los ajustes de
+   pantalla grande. */
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .portada h1 {
+    font-size: 3.2rem;
+  }
+
+  .campo-corto {
+    flex: none;
+    width: 160px;
+  }
+
+  .fila-pieza {
+    flex-wrap: nowrap;
+  }
+
+  .fila-pieza .campo-corto {
+    width: 120px;
+  }
+
+  .detalle {
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  }
+
+  .botones .boton {
+    width: 100%;
+  }
+}
+
+/* En pantallas anchas caben las seis columnas del tablero sin desplazarse */
+@media (min-width: 1100px) {
+  .tablero {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, 1fr);
+    overflow-x: visible;
+  }
+}
