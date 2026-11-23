@@ -1,0 +1,27 @@
+meta {
+  name: 04-entregar
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "entregada"
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'entregada'", function () {
+    expect(res.body.estado).to.equal("entregada");
+  });
+}

@@ -1,0 +1,30 @@
+meta {
+  name: 05-crear-con-presupuesto
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cliente": "{{clienteId}}",
+    "equipo": "TV",
+    "problema": "Sin imagen",
+    "manoObra": 50
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("presupuesto");
+  });
+}

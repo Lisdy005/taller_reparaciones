@@ -1,0 +1,36 @@
+meta {
+  name: 02-pieza-con-cantidad-0
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "presupuestada",
+    "diagnostico": "Fuente",
+    "manoObra": 20,
+    "piezas": [
+      {
+        "descripcion": "Fuente",
+        "cantidad": 0,
+        "precio": 5
+      }
+    ]
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("cantidad");
+  });
+}

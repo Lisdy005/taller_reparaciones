@@ -1,0 +1,33 @@
+meta {
+  name: 01-crear-orden-a-rechazar
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cliente": "{{clienteId}}",
+    "equipo": "Televisor",
+    "problema": "Pantalla rota"
+  }
+}
+
+script:post-response {
+  bru.setVar("ordenRechazoId", res.body.id);
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'solicitada'", function () {
+    expect(res.body.estado).to.equal("solicitada");
+  });
+}

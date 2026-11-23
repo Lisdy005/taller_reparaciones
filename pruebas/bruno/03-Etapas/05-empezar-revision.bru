@@ -1,0 +1,27 @@
+meta {
+  name: 05-empezar-revision
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "en_diagnostico"
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'en_diagnostico'", function () {
+    expect(res.body.estado).to.equal("en_diagnostico");
+  });
+}

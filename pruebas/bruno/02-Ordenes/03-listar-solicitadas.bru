@@ -1,0 +1,29 @@
+meta {
+  name: 03-listar-solicitadas
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/collections/ordenes/records?filter=estado = "solicitada"&sort=-created&expand=cliente
+  body: none
+  auth: none
+}
+
+params:query {
+  filter: estado = "solicitada"
+  sort: -created
+  expand: cliente
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("todas las órdenes devueltas están en 'solicitada'", function () {
+    for (const orden of res.body.items) {
+      expect(orden.estado).to.equal("solicitada");
+    }
+  });
+}

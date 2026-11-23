@@ -1,0 +1,25 @@
+meta {
+  name: 08-ver-miniatura
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/files/ordenes/{{ordenFotosId}}/{{archivoFoto}}?thumb=100x100
+  body: none
+  auth: none
+}
+
+params:query {
+  thumb: 100x100
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("devuelve una imagen", function () {
+    expect(res.headers["content-type"]).to.contain("image/");
+  });
+}

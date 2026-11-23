@@ -1,0 +1,21 @@
+meta {
+  name: 10-borrar-orden
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 403 (bloqueado por la regla)", function () {
+    expect(res.status).to.equal(403);
+  });
+}
+
+docs {
+  La regla deleteRule de ordenes está bloqueada (null): las órdenes no se borran.
+}

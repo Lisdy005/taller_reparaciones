@@ -1,0 +1,54 @@
+meta {
+  name: 05-presupuestar
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "presupuestada",
+    "diagnostico": "Fuente quemada",
+    "manoObra": 25,
+    "piezas": [
+      {
+        "descripcion": "Fuente 65W",
+        "cantidad": 1,
+        "precio": 30
+      },
+      {
+        "descripcion": "Fusible",
+        "cantidad": 2,
+        "precio": 1.5
+      }
+    ]
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'presupuestada'", function () {
+    expect(res.body.estado).to.equal("presupuestada");
+  });
+
+  test("se guardaron las 2 piezas", function () {
+    expect(res.body.piezas).to.have.lengthOf(2);
+  });
+
+  test("el total no se guarda: se calcula (25 + 1×30 + 2×1.5 = 58)", function () {
+    let total = res.body.manoObra;
+    for (const pieza of res.body.piezas) {
+      total += pieza.cantidad * pieza.precio;
+    }
+    expect(total).to.equal(58);
+    expect(res.body.total).to.equal(undefined);
+  });
+}

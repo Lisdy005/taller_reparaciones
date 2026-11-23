@@ -1,0 +1,31 @@
+meta {
+  name: 09-crear-con-4-fotos
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  cliente: {{clienteId}}
+  equipo: Demasiadas fotos
+  problema: Prueba
+  fotos: @file(assets/ejemplo.png)
+  fotos: @file(assets/ejemplo2.png)
+  fotos: @file(assets/ejemplo3.png)
+  fotos: @file(assets/ejemplo4.png)
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("data.fotos dice que el máximo es 3", function () {
+    expect(res.body.data.fotos.code).to.equal("validation_too_many_files");
+  });
+}

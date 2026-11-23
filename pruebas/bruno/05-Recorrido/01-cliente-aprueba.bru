@@ -1,0 +1,27 @@
+meta {
+  name: 01-cliente-aprueba
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "aprobada"
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'aprobada'", function () {
+    expect(res.body.estado).to.equal("aprobada");
+  });
+}

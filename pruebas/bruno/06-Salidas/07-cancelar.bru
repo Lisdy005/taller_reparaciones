@@ -1,0 +1,27 @@
+meta {
+  name: 07-cancelar
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenCancelId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "cancelada"
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'cancelada'", function () {
+    expect(res.body.estado).to.equal("cancelada");
+  });
+}

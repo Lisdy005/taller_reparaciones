@@ -1,0 +1,38 @@
+meta {
+  name: 07-crear-con-fotos
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  cliente: {{clienteId}}
+  equipo: Teléfono con fotos
+  problema: Pantalla rota
+  fotos: @file(assets/ejemplo.png)
+  fotos: @file(assets/ejemplo2.png)
+}
+
+script:post-response {
+  bru.setVar("ordenFotosId", res.body.id);
+  bru.setVar("archivoFoto", res.body.fotos[0]);
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("se guardaron las 2 fotos", function () {
+    expect(res.body.fotos).to.have.lengthOf(2);
+  });
+}
+
+docs {
+  Multipart Form, como en C9: los textos y los archivos en una sola petición.
+}

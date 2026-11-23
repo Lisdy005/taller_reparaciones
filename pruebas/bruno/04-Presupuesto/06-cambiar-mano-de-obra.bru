@@ -1,0 +1,27 @@
+meta {
+  name: 06-cambiar-mano-de-obra
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "manoObra": 999
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("no se modifica");
+  });
+}

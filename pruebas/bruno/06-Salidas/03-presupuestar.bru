@@ -1,0 +1,30 @@
+meta {
+  name: 03-presupuestar
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenRechazoId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "presupuestada",
+    "diagnostico": "Panel roto",
+    "manoObra": 40,
+    "piezas": []
+  }
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'presupuestada'", function () {
+    expect(res.body.estado).to.equal("presupuestada");
+  });
+}

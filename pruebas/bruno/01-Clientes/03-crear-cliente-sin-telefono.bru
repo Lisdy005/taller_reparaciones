@@ -1,0 +1,27 @@
+meta {
+  name: 03-crear-cliente-sin-telefono
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/collections/clientes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Sin Teléfono"
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("data.telefono explica el error", function () {
+    expect(res.body.data.telefono).to.be.an("object");
+  });
+}

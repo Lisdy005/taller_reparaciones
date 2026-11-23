@@ -1,0 +1,33 @@
+meta {
+  name: 01-crear-cliente
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/collections/clientes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Cliente de Prueba",
+    "telefono": "5550 0000"
+  }
+}
+
+script:post-response {
+  // Guarda el id para usarlo en las peticiones siguientes
+  bru.setVar("clienteId", res.body.id);
+}
+
+tests {
+  test("responde 200 con el cliente creado", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("el cliente tiene id", function () {
+    expect(res.body.id).to.be.a("string");
+  });
+}

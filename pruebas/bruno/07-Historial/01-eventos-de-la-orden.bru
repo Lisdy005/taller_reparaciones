@@ -1,0 +1,51 @@
+meta {
+  name: 01-eventos-de-la-orden
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/collections/eventos/records?filter=orden = "{{ordenId}}"&sort=created
+  body: none
+  auth: none
+}
+
+params:query {
+  filter: orden = "{{ordenId}}"
+  sort: created
+}
+
+script:post-response {
+  bru.setVar("eventoId", res.body.items[0].id);
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("hay 7 eventos: la creación y los 6 cambios de etapa", function () {
+    expect(res.body.totalItems).to.equal(7);
+  });
+
+  test("el historial va en el orden del proceso", function () {
+    const etapas = [];
+    for (const evento of res.body.items) {
+      etapas.push(evento.a);
+    }
+    expect(etapas).to.deep.equal([
+      "solicitada", "en_diagnostico", "presupuestada",
+      "aprobada", "en_reparacion", "lista", "entregada",
+    ]);
+  });
+
+  test("cada evento tiene su fecha", function () {
+    for (const evento of res.body.items) {
+      expect(evento.created).to.be.a("string").and.not.equal("");
+    }
+  });
+}
+
+docs {
+  Los eventos los escribió el servidor (hooks onRecordAfter...Success), no la petición.
+}

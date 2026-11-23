@@ -1,0 +1,29 @@
+meta {
+  name: 02-crear-evento-a-mano
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/collections/eventos/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "orden": "{{ordenId}}",
+    "de": "lista",
+    "a": "entregada"
+  }
+}
+
+tests {
+  test("responde 403 (bloqueado por la regla)", function () {
+    expect(res.status).to.equal(403);
+  });
+}
+
+docs {
+  createRule de eventos está bloqueada (null): nadie puede inventar un evento.
+}

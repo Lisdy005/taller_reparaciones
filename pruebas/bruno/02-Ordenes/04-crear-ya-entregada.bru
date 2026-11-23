@@ -1,0 +1,30 @@
+meta {
+  name: 04-crear-ya-entregada
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cliente": "{{clienteId}}",
+    "equipo": "TV",
+    "problema": "Sin imagen",
+    "estado": "entregada"
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("solicitada");
+  });
+}

@@ -1,0 +1,31 @@
+meta {
+  name: 06-cancelar-tarde
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "cancelada"
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("No se permite pasar de 'en_diagnostico' a 'cancelada'");
+  });
+}
+
+docs {
+  Solo se cancela mientras la orden está 'solicitada'.
+}

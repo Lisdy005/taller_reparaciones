@@ -1,0 +1,27 @@
+meta {
+  name: 05-cambiar-rechazada
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenRechazoId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "estado": "aprobada"
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("ya no admite cambios");
+  });
+}

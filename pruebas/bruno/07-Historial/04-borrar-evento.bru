@@ -1,0 +1,17 @@
+meta {
+  name: 04-borrar-evento
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/collections/eventos/records/{{eventoId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 403 (bloqueado por la regla)", function () {
+    expect(res.status).to.equal(403);
+  });
+}

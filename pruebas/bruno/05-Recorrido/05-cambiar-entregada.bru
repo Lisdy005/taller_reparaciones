@@ -1,0 +1,31 @@
+meta {
+  name: 05-cambiar-entregada
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "equipo": "Otro equipo"
+  }
+}
+
+tests {
+  test("responde 400 (rechazado)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("el servidor explica el motivo", function () {
+    expect(res.body.message).to.contain("ya no admite cambios");
+  });
+}
+
+docs {
+  Una orden entregada no cambia más.
+}

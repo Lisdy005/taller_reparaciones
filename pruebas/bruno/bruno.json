@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Taller de Reparaciones",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

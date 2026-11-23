@@ -1,0 +1,33 @@
+meta {
+  name: 06-crear-orden-a-cancelar
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/collections/ordenes/records
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cliente": "{{clienteId}}",
+    "equipo": "Tablet",
+    "problema": "No carga"
+  }
+}
+
+script:post-response {
+  bru.setVar("ordenCancelId", res.body.id);
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la orden queda en 'solicitada'", function () {
+    expect(res.body.estado).to.equal("solicitada");
+  });
+}

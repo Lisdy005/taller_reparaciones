@@ -1,0 +1,21 @@
+meta {
+  name: 04-borrar-cliente
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/collections/clientes/records/{{clienteId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 403 (bloqueado por la regla)", function () {
+    expect(res.status).to.equal(403);
+  });
+}
+
+docs {
+  La regla deleteRule de clientes está bloqueada (null): nadie borra clientes desde la API.
+}

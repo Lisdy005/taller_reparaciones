@@ -1,0 +1,26 @@
+meta {
+  name: 02-ver-orden-con-cliente
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/collections/ordenes/records/{{ordenId}}?expand=cliente
+  body: none
+  auth: none
+}
+
+params:query {
+  expand: cliente
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("expand trae el cliente completo", function () {
+    expect(res.body.expand.cliente.id).to.equal(bru.getVar("clienteId"));
+    expect(res.body.expand.cliente.nombre).to.equal("Cliente de Prueba");
+  });
+}

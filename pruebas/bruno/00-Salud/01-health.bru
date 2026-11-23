@@ -1,0 +1,25 @@
+meta {
+  name: 01-health
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/health
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("la API está sana", function () {
+    expect(res.body.message).to.equal("API is healthy.");
+  });
+}
+
+docs {
+  Comprueba que PocketBase está encendido. Debe responder 200.
+}

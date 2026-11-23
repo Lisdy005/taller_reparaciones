@@ -1,0 +1,28 @@
+meta {
+  name: 01-resumen-por-etapa
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/resumen
+  body: none
+  auth: none
+}
+
+tests {
+  test("responde 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("trae el total y el conteo de cada etapa", function () {
+    expect(res.body.total).to.be.a("number");
+    expect(res.body.porEstado.entregada).to.be.at.least(1);
+    expect(res.body.porEstado.rechazada).to.be.at.least(1);
+    expect(res.body.porEstado.cancelada).to.be.at.least(1);
+  });
+}
+
+docs {
+  Ruta propia definida con routerAdd en pb_hooks/resumen.pb.js.
+}
